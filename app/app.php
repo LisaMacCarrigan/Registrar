@@ -63,7 +63,14 @@
         return $app['twig']->render('index.html.twig');
     });
 
-
+    $app->post("/courses", function() use($app) {
+        $name = $_POST['course_name'];
+        $id = null;
+        $number = $_POST['course_identifier'];
+        $new_course = new Course($id, $name, $number);
+        $new_course->save();
+        return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));        
+    });
 
 
 // STUDENTS
@@ -72,7 +79,11 @@
         return $app['twig']->render('students.html.twig', array('students' => Student::getAll()));        
     });    
     $app->get("/students/{student_id}", function($student_id) use($app) {
-        return $app['twig']->render('student.html.twig', array('single_student' => Student::find($student_id)));        
+        return $app['twig']->render('student.html.twig', array(
+            'single_student' => Student::find($student_id),
+            'all_courses' => Course::getAll(),
+            'student_courses' => Student::find($student_id)->getCourses()
+        ));        
     });
 
     $app->get("/students/{student_to_edit_id}/edit", function($student_to_edit_id) use($app) {
@@ -84,7 +95,11 @@
         // $test_student->update($new_name);
         $current_student = Student::find($student_id);
         $current_student->update($_POST['new_name']);
-        return $app['twig']->render('student.html.twig', array('single_student' => $current_student));        
+        return $app['twig']->render('student.html.twig', array(
+            'single_student' => $current_student,
+            'all_courses' => Course::getAll(),
+            'student_courses' => Student::find($student_id)->getCourses()
+        ));        
     });
 
     $app->delete("/students/{student_id_to_delete}", function($student_id_to_delete) use($app) {
@@ -98,5 +113,27 @@
         Student::deleteAll();
         return $app['twig']->render('index.html.twig');
     });
+
+    $app->post("/students", function() use($app) {
+        $name = $_POST['student_name'];
+        $id = null;
+        $enrollment = $_POST['enrollment'];
+        $new_student = new Student($id, $name, $enrollment);
+        $new_student->save();
+        return $app['twig']->render('students.html.twig', array('students' => Student::getAll()));        
+    });
+
+    $app->post("/students/{student_id_add_course}", function($student_id_add_course) use($app){
+
+        $current_student = Student::find($student_id_add_course);
+        $course_to_add = Course::find($_POST['course_id']);
+        $current_student->addCourse($course_to_add);
+        return $app['twig']->render('student.html.twig', array(
+            'single_student' => Student::find($student_id_add_course),
+            'all_courses' => Course::getAll(),
+            'student_courses' => $current_student->getCourses()
+        ));    
+    });
+
     return $app;
  ?>

@@ -13,6 +13,23 @@
                 <input name="_method" type="hidden" value="delete">
                 <button type="submit">Delete This Student</button>
             </form>
+
+            <h3>Add course to student:</h3>
+            <form action="/students/{{single_student.getId}}" method="post">
+                <input id="current_student_id" name="current_student_id" type="hidden" value="{{single_student.getId}}">
+                <label>Select a course</label>
+                <select id="course_id" name="course_id" type="text">
+                    {% for current_course in all_courses %}
+                        <option value="{{current_course.getId}}">{{current_course.getName}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Add</button>
+            </form>
+
+            <h3>Student Schedule:</h3>
+            {% for course in student_courses %}
+                <p>{{course.getName}}</p>
+            {% endfor %}
         </div>
     </body>
 </html>

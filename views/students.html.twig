@@ -14,6 +14,15 @@
                         <a href="students/{{current_student.getId}}"><p>{{current_student.getName}}</p></a>
                     {% endfor %}
                 {% endif %}
+
+            <form action="/students" method="post">
+                <label for="name">Student Name:</label>
+                <input id="name" type="text" name="student_name">
+                <label for="identifier">Date of enrollment:</label>
+                <input id="identifier" type="text" name="enrollment">
+                <button type="submit">Create Student</button>
+            </form>
+
             <form action="/students/delete" method="post">
                 <button type="submit">Delete All Students</button>
             </form>

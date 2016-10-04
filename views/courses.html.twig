@@ -14,6 +14,15 @@
                     <a href="courses/{{current_course.getId}}"><p>{{current_course.getName}}</p></a>
                 {% endfor %}
             {% endif %}
+
+            <form action="/courses" method="post">
+                <label for="name">Course Name:</label>
+                <input id="name" type="text" name="course_name">
+                <label for="identifier">Course Identifier:</label>
+                <input id="identifier" type="text" name="course_identifier">
+                <button type="submit">Create Course</button>
+            </form>
+
             <form action="/courses/delete" method="post">
                 <button type="submit">Delete All Courses</button>
             </form>
