@@ -30,8 +30,17 @@
     $app->get("/courses", function() use($app) {
         return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));        
     });
+    
+    $app->get("/courses/{course_id}", function($course_id) use($app) {
+        return $app['twig']->render('course.html.twig', array('single_course' => Course::find($course_id)));        
+    });
+
+
     $app->get("/students", function() use($app) {
-        return $app['twig']->render('students.html.twig');        
+        return $app['twig']->render('students.html.twig', array('students' => Student::getAll()));        
+    });    
+    $app->get("/students/{student_id}", function($student_id) use($app) {
+        return $app['twig']->render('student.html.twig', array('single_student' => Student::find($student_id)));        
     });
 
 

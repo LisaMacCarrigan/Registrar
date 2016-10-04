@@ -8,6 +8,13 @@
     <body>
         <div class="container">
             <h1>Students</h1>
+                {% if students is not empty %}
+                    <h3>Here are your students!</h3>
+                    {% for current_student in students %}
+                        <a href="students/{{current_student.getId}}"><p>{{current_student.getName}}</p></a>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
     </body>
 </html>
