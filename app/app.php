@@ -58,6 +58,11 @@
         return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));
     });
 
+    $app->post("/courses/delete", function() use($app) {
+        Course::deleteAll();
+        return $app['twig']->render('index.html.twig');
+    });
+
 
 
 
@@ -89,5 +94,9 @@
         return $app['twig']->render('students.html.twig', array('students' => Student::getAll())); 
     });
 
+    $app->post("/students/delete", function() use($app) {
+        Student::deleteAll();
+        return $app['twig']->render('index.html.twig');
+    });
     return $app;
  ?>

@@ -14,7 +14,9 @@
                         <a href="students/{{current_student.getId}}"><p>{{current_student.getName}}</p></a>
                     {% endfor %}
                 {% endif %}
-            </div>
+            <form action="/students/delete" method="post">
+                <button type="submit">Delete All Students</button>
+            </form>
         </div>
     </body>
 </html>
