@@ -35,7 +35,12 @@
     });
     
     $app->get("/courses/{course_id}", function($course_id) use($app) {
-        return $app['twig']->render('course.html.twig', array('single_course' => Course::find($course_id)));        
+        $current_course = Course::find($course_id);
+        return $app['twig']->render('course.html.twig', array(
+            'single_course' => $current_course,
+            'all_students' => Student::getAll(),
+            'students_in_this_course' => $current_course->getStudents()
+        ));        
     });
 
 
@@ -48,7 +53,11 @@
         // $test_course->update($new_name);
         $current_course = Course::find($course_id);
         $current_course->update($_POST['new_name']);
-        return $app['twig']->render('course.html.twig', array('single_course' => $current_course));        
+        return $app['twig']->render('course.html.twig', array(
+            'single_course' => $current_course,
+            'all_students' => Student::getAll(),
+            'students_in_this_course' => $current_course->getStudents()
+        ));        
     });
 
     $app->delete("/courses/{course_id_to_delete}", function($course_id_to_delete) use($app) {
@@ -70,6 +79,18 @@
         $new_course = new Course($id, $name, $number);
         $new_course->save();
         return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));        
+    });
+
+    $app->post("/courses/{course_id}", function($course_id) use($app){
+
+        $student_to_add = Student::find($_POST['student_id']);
+        $current_course = Course::find($course_id);
+        $current_course->addStudent($student_to_add);
+        return $app['twig']->render('course.html.twig', array(
+            'all_students' => Student::getAll(),
+            'single_course' => $current_course,
+            'students_in_this_course' => $current_course->getStudents()
+        ));    
     });
 
 
