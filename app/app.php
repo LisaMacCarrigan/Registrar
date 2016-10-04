@@ -28,7 +28,7 @@
         return $app['twig']->render('index.html.twig');        
     });
     $app->get("/courses", function() use($app) {
-        return $app['twig']->render('courses.html.twig');        
+        return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));        
     });
     $app->get("/students", function() use($app) {
         return $app['twig']->render('students.html.twig');        

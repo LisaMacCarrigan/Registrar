@@ -8,6 +8,12 @@
     <body>
         <div class="container">
             <h1>Courses</h1>
+            {% if courses is not empty %}
+                <h3>Here are your courses!</h3>
+                {% for current_course in courses %}
+                    <p>{{current_course.getName}}</p>
+                {% endfor %}
+            {% endif %}
         </div>
     </body>
 </html>
