@@ -9,6 +9,10 @@
         <div class="container">
             <h1>{{single_course.getName}}</h1>
             <p><a href="/courses/{{single_course.getId}}/edit">Edit</a></p>
+            <form action="/courses/{{single_course.getId}}" method="post">
+                <input name="_method" type="hidden" value="delete">
+                <button type="submit">Delete This Course</button>
+            </form>
         </div>
     </body>
 </html>

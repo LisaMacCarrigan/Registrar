@@ -39,7 +39,7 @@
     });
 
 
-    $app->get("courses/{course_to_edit_id}/edit", function($course_to_edit_id) use($app) {
+    $app->get("/courses/{course_to_edit_id}/edit", function($course_to_edit_id) use($app) {
         $current_course = Course::find($course_to_edit_id);
         return $app['twig']->render('edit-course.html.twig', array('editing_course' => $current_course));        
     });
@@ -50,6 +50,14 @@
         $current_course->update($_POST['new_name']);
         return $app['twig']->render('course.html.twig', array('single_course' => $current_course));        
     });
+
+    $app->delete("/courses/{course_id_to_delete}", function($course_id_to_delete) use($app) {
+        // $test_course->delete();
+        $course_to_delete = Course::find($course_id_to_delete);
+        $course_to_delete->delete();
+        return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));
+    });
+
 
 
 
@@ -62,7 +70,24 @@
         return $app['twig']->render('student.html.twig', array('single_student' => Student::find($student_id)));        
     });
 
+    $app->get("/students/{student_to_edit_id}/edit", function($student_to_edit_id) use($app) {
+        $current_student = Student::find($student_to_edit_id);
+        return $app['twig']->render('edit-student.html.twig', array('editing_student' => $current_student));        
+    });
 
+    $app->patch("/students/{student_id}", function($student_id) use($app) {
+        // $test_student->update($new_name);
+        $current_student = Student::find($student_id);
+        $current_student->update($_POST['new_name']);
+        return $app['twig']->render('student.html.twig', array('single_student' => $current_student));        
+    });
+
+    $app->delete("/students/{student_id_to_delete}", function($student_id_to_delete) use($app) {
+        // $test_course->delete();
+        $student_to_delete = Student::find($student_id_to_delete);
+        $student_to_delete->delete();
+        return $app['twig']->render('students.html.twig', array('students' => Student::getAll())); 
+    });
 
     return $app;
  ?>
